@@ -46,10 +46,11 @@
               class="form-select"
               aria-label="Default select example"
             >
-              <option selected>Open this select menu</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
+              <option
+                th:each="brand : ${brands}"
+                th:text="${brand.brandName}"
+                th:value="${brand.brandId}"
+              ></option>
             </select>
           </div>
         </div>
@@ -84,13 +85,16 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>a</td>
-                <td>b</td>
-                <td>c</td>
-                <td>d</td>
-                <td>e</td>
+              <tr
+                th:each="motorcycle : ${motorcycles}"
+                th:object="${motorcycle}"
+              >
+                <th scope="row" th:text="*{motorcycleNo}"></th>
+                <td th:text="*{brand.brandName}"></td>
+                <td th:text="*{motorcycleName}"></td>
+                <td th:text="*{cooling} + *{cylinders} + 気筒"></td>
+                <td th:text="*{price}"></td>
+                <td th:text="*{comment}"></td>
               </tr>
             </tbody>
           </table>
