@@ -1,0 +1,38 @@
+package jp.co.study.sample.motocatalog.services;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.List;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import jp.co.study.sample.motocatalog.model.Motorcycle;
+import jp.co.study.sample.motocatalog.sevices.MotosService;
+
+@SpringBootTest
+public class MotosServiceTest {
+
+    @Autowired
+    MotosService service;
+
+    @Test
+    void バイク情報を全件検索できる() {
+        List<Motorcycle> motorcycleList = service.getMotorcycle();
+
+        // 検索結果の件数確認
+        assertThat(motorcycleList.size()).isEqualTo(4);
+
+        // 検索結果の1件目に関して、各項目の値確認（※ブランドIDはSQLと異なる状態のため無視）
+        Motorcycle motorcycle = motorcycleList.get(0);
+        assertThat(motorcycle.getMotorcycleNo()).isEqualTo(1);
+        assertThat(motorcycle.getMotorcycleName()).isEqualTo("GB350");
+        assertThat(motorcycle.getSeatHeight()).isEqualTo(760);
+        assertThat(motorcycle.getCylinders()).isEqualTo(2);
+        assertThat(motorcycle.getCooling()).isEqualTo("空冷");
+        assertThat(motorcycle.getPrice()).isEqualTo(550000);
+        assertThat(motorcycle.getComment()).isEqualTo("ホンダの人気モデル");
+        assertThat(motorcycle.getVersion()).isEqualTo(1);
+    }
+}

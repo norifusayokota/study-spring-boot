@@ -1,14 +1,28 @@
 spring:
-    application:
-        name: motocatalog
+  application:
+    name: motocatalog
+  # SQLに関する設定
+  # https://docs.spring.io/spring-boot/reference/data/sql.htmlを参照
+  datasource:
+    url: "jdbc:mysql://localhost/motocatalog_db"
+    username: develop
+    password: develop
+  sql:
+    init:
+      mode: always
+      encoding: UTF-8
 
-# ログの出力に関する設定＜ここから＞
+# SQLのカラム名はスネークケースでマッピング先のjavaはキャメルケースの場合、mybatisで自動的にキャメル→スネークに変換してくれる設定
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+
+# ログの出力に関する設定
 logging:
-    level:
-        root: info
-    file:
-        name: motocatalog.log
-    logback:
-        rollingpolicy:
-            max-file-size: 1MB
-# ログの出力に関する設定＜ここまで＞
+  level:
+    root: info
+  file:
+    name: motocatalog.log
+  logback:
+    rollingpolicy:
+      max-file-size: 1MB
