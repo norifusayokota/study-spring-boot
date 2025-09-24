@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import jp.co.study.sample.model.Brand;
-import jp.co.study.sample.model.Motorcycle;
+import jp.co.study.sample.motocatalog.model.Brand;
+import jp.co.study.sample.motocatalog.model.Motorcycle;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller

@@ -1,4 +1,4 @@
-package jp.co.study.sample.model;
+package jp.co.study.sample.motocatalog.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
