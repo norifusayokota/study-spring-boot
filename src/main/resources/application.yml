@@ -1,0 +1,14 @@
+spring:
+    application:
+        name: motocatalog
+
+# ログの出力に関する設定＜ここから＞
+logging:
+    level:
+        root: info
+    file:
+        name: motocatalog.log
+    logback:
+        rollingpolicy:
+            max-file-size: 1MB
+# ログの出力に関する設定＜ここまで＞
