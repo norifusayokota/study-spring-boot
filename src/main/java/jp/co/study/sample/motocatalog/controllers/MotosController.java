@@ -11,9 +11,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import jp.co.study.sample.model.Brand;
 import jp.co.study.sample.model.Motorcycle;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
+@Slf4j // ログ部品を使えるようにする
 public class MotosController {
+
+    // ログ部品を使えるようにする
+    // private static final Logger log = LoggerFactory.getLogger(MotosController.class);
+    // →上記が定型的な書き方だが、Lombokの@Slf4jアノテーションをクラスに付与することで、log変数が自動生成される
 
     @RequestMapping("/test")
     public String test(@RequestParam String name, Model model) {
@@ -42,6 +48,9 @@ public class MotosController {
 
         model.addAttribute("brands", brands);
         model.addAttribute("motorcycles", motorcycles);
+
+        // @Slf4jアノテーションのおかげでlogという変数名を使用することができる
+        log.debug("motorcycles: {}", motorcycles);
 
         return "moto_list";
     }
