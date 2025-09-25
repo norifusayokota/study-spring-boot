@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- MotorcycleMapper.javaをnamespaceで指定する -->
+<mapper namespace="jp.co.study.sample.motocatalog.mappers.MotorcycleMapper">
+    <resultMap id="motorcycleMap" type="jp.co.study.sample.motocatalog.model.Motorcycle" autoMapping="true">
+        <association property="brand" javaType="jp.co.study.sample.motocatalog.model.Brand" autoMapping="true"></association>
+    </resultMap>
+    <!-- 
+    MotorcycleMapper.javaのメソッドとidを一致させる 
+    SQL文を実行したときの結果の型がMotorcycle.javaと一致するようにする
+    -->
+    <select id="selectAll" resultMap="motorcycleMap">
+        SELECT
+            m_motorcycle.motorcycle_no,
+            m_motorcycle.motorcycle_name,
+            m_motorcycle.cylinders,
+            m_motorcycle.cooling,
+            m_motorcycle.price,
+            m_motorcycle.`comment`,
+            m_brand.brand_id,
+            m_brand.brand_name
+        FROM
+            m_motorcycle 
+            LEFT OUTER JOIN	m_brand
+                ON m_motorcycle.brand_id = m_brand.brand_id
+        ORDER BY
+            motorcycle_no;
+    </select>
+</mapper>
+<!-- https://mybatis.org/mybatis-3/ja/getting-started.htmlを参照 -->
