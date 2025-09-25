@@ -3,6 +3,7 @@ package jp.co.study.sample.motocatalog.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,11 +12,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import jp.co.study.sample.motocatalog.model.Brand;
 import jp.co.study.sample.motocatalog.model.Motorcycle;
+import jp.co.study.sample.motocatalog.sevices.MotosService;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j // ログ部品を使えるようにする
 public class MotosController {
+
+    @Autowired
+    MotosService motosService;
 
     // ログ部品を使えるようにする
     // private static final Logger log = LoggerFactory.getLogger(MotosController.class);
@@ -40,11 +45,7 @@ public class MotosController {
 
         // バイク
         List<Motorcycle> motorcycles = new ArrayList<>();
-        motorcycles.add(new Motorcycle(1, "GB350", 760, 2, "空冷", 550000, "ホンダの人気モデル", brands.get(0), 1, null, null));
-        motorcycles.add(new Motorcycle(2, "GSX250R", 790, 1, "水冷", 600000, "スズキの人気モデル", brands.get(1), 1, null, null));
-        motorcycles.add(new Motorcycle(3, "MT-25", 780, 2, "水冷", 650000, "ヤマハの人気モデル", brands.get(2), 1, null, null));
-        motorcycles.add(
-                new Motorcycle(4, "Ninja ZX-25R", 785, 4, "水冷", 1000000, "カワサキの人気モデル", brands.get(3), 1, null, null));
+        motorcycles = motosService.getMotorcycle();
 
         model.addAttribute("brands", brands);
         model.addAttribute("motorcycles", motorcycles);

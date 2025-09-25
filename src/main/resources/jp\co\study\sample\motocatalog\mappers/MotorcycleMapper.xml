@@ -3,11 +3,25 @@
 <!-- MotorcycleMapper.javaをnamespaceで指定する -->
 <mapper namespace="jp.co.study.sample.motocatalog.mappers.MotorcycleMapper">
     <!-- 
-        MotorcycleMapper.javaのメソッドとidを一致させる 
-        SQL文を実行したときの結果の型がMotorcycle.javaと一致するようにする
-        -->
+    MotorcycleMapper.javaのメソッドとidを一致させる 
+    SQL文を実行したときの結果の型がMotorcycle.javaと一致するようにする
+    -->
     <select id="selectAll" resultType="jp.co.study.sample.motocatalog.model.Motorcycle">
-        select * from m_motorcycle
+        SELECT
+            m_motorcycle.motorcycle_no,
+            m_motorcycle.motorcycle_name,
+            m_motorcycle.cylinders,
+            m_motorcycle.cooling,
+            m_motorcycle.price,
+            m_motorcycle.`comment`,
+            m_brand.brand_id,
+            m_brand.brand_name
+        FROM
+            m_motorcycle 
+            LEFT OUTER JOIN	m_brand
+                ON m_motorcycle.brand_id = m_brand.brand_id
+        ORDER BY
+            motorcycle_no;
     </select>
 </mapper>
 <!-- https://mybatis.org/mybatis-3/ja/getting-started.htmlを参照 -->
