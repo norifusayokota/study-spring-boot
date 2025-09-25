@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import jp.co.study.sample.motocatalog.model.Motorcycle;
+import jp.co.study.sample.motocatalog.model.SearchCondition;
 
 /* 
 MyBatisを用いてDBと接続する
@@ -15,9 +16,10 @@ MyBatisを用いてDBと接続する
 public interface MotorcycleMapper {
 
     /**
-     * バイク情報を全件検索する
+     * バイク情報を検索条件に従って検索する
      * 
+     * @param condition 検索条件
      * @return バイク情報リスト
      */
-    public List<Motorcycle> selectAll();
+    public List<Motorcycle> selectByCondition(SearchCondition condition);
 }

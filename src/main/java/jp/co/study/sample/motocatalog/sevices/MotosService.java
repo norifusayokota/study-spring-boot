@@ -9,6 +9,7 @@ import jp.co.study.sample.motocatalog.mappers.BrandMapper;
 import jp.co.study.sample.motocatalog.mappers.MotorcycleMapper;
 import jp.co.study.sample.motocatalog.model.Brand;
 import jp.co.study.sample.motocatalog.model.Motorcycle;
+import jp.co.study.sample.motocatalog.model.SearchCondition;
 
 @Service
 public class MotosService {
@@ -27,8 +28,8 @@ public class MotosService {
     @Autowired
     BrandMapper brandMapper;
 
-    public List<Motorcycle> getMotorcycle() {
-        return motorcycleMapper.selectAll();
+    public List<Motorcycle> getMotorcycle(SearchCondition condition) {
+        return motorcycleMapper.selectByCondition(condition);
     }
 
     public List<Brand> getBrand() {
