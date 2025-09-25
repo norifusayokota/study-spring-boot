@@ -28,11 +28,12 @@ public class MotosServiceTest {
         Motorcycle motorcycle = motorcycleList.get(0);
         assertThat(motorcycle.getMotorcycleNo()).isEqualTo(1);
         assertThat(motorcycle.getMotorcycleName()).isEqualTo("GB350");
-        assertThat(motorcycle.getSeatHeight()).isEqualTo(760);
+        // assertThat(motorcycle.getSeatHeight()).isEqualTo(760); // DBから取得しなくなった項目のためコメントアウト
         assertThat(motorcycle.getCylinders()).isEqualTo(2);
         assertThat(motorcycle.getCooling()).isEqualTo("空冷");
         assertThat(motorcycle.getPrice()).isEqualTo(550000);
         assertThat(motorcycle.getComment()).isEqualTo("ホンダの人気モデル");
-        assertThat(motorcycle.getVersion()).isEqualTo(1);
+        // assertThat(motorcycle.getVersion()).isEqualTo(1); // DBから取得しなくなった項目のためコメントアウト
+        assertThat(motorcycle.getBrand().getBrandName()).isEqualTo("HONDA");
     }
 }

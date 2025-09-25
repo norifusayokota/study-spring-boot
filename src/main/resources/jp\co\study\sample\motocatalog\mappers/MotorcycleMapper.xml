@@ -2,11 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- MotorcycleMapper.javaをnamespaceで指定する -->
 <mapper namespace="jp.co.study.sample.motocatalog.mappers.MotorcycleMapper">
+    <resultMap id="motorcycleMap" type="jp.co.study.sample.motocatalog.model.Motorcycle" autoMapping="true">
+        <association property="brand" javaType="jp.co.study.sample.motocatalog.model.Brand" autoMapping="true"></association>
+    </resultMap>
     <!-- 
     MotorcycleMapper.javaのメソッドとidを一致させる 
     SQL文を実行したときの結果の型がMotorcycle.javaと一致するようにする
     -->
-    <select id="selectAll" resultType="jp.co.study.sample.motocatalog.model.Motorcycle">
+    <select id="selectAll" resultMap="motorcycleMap">
         SELECT
             m_motorcycle.motorcycle_no,
             m_motorcycle.motorcycle_name,
