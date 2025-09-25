@@ -38,10 +38,7 @@ public class MotosController {
     public String motos(Model model) {
         // ブランド
         List<Brand> brands = new ArrayList<>();
-        brands.add(new Brand("01", "HONDA"));
-        brands.add(new Brand("02", "SUZUKI"));
-        brands.add(new Brand("03", "YAMAHA"));
-        brands.add(new Brand("04", "KAWASAKI"));
+        brands = motosService.getBrand();
 
         // バイク
         List<Motorcycle> motorcycles = new ArrayList<>();
