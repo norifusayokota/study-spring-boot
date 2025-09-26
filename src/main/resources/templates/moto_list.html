@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Spring Boot の学習</title>
+    <title th:text="#{site.title}"></title>
 
     <!-- Bootstrap 関連の読み込み -->
     <link
@@ -27,7 +27,7 @@
   <body>
     <nav class="navbar bg-dark border-bottom border-bottom-dark mb-3" data-bs-theme="dark">
       <div class="container-fluid">
-        <span class="navbar-brand mb-0 h1">バイク管理</span>
+        <span class="navbar-brand mb-0 h1" th:text="#{page.title}"></span>
       </div>
     </nav>
     <div class="container">
@@ -35,7 +35,7 @@
         <div class="row">
           <div class="col">
             <div class="mb-3">
-              <label for="brand" class="form-label">バイクのメーカー</label>
+              <label for="brand" class="form-label" th:text="#{searchForm.brand}"></label>
               <select
                 id="brand"
                 class="form-select"
@@ -50,7 +50,7 @@
 
           <div class="col">
             <div class="mb-3">
-              <label for="keyword" class="form-label">キーワード検索</label>
+              <label for="keyword" class="form-label" th:text="#{searchForm.keyword}"></label>
               <input
                 type="text"
                 class="form-control"
@@ -58,15 +58,16 @@
                 th:field="${searchForm.keyword}"
                 placeholder="バイク名もしくはコメントの一部を入力して下しください"
               />
+              <div class="text-danger" th:errors="${searchForm.keyword}"></div>
             </div>
           </div>
         </div>
 
         <div class="row">
           <div class="col d-flex flex-row-reverse">
-            <button type="button" class="btn btn-primary">新規</button>
-            <a th:href="@{/motos/reset}" class="btn btn-danger mx-1">リセット</a>
-            <button type="submit" class="btn btn-success">検索</button>
+            <button type="button" class="btn btn-primary" th:text="#{btn.new}"></button>
+            <a th:href="@{/motos/reset}" class="btn btn-danger mx-1" th:text="#{btn.reset}"></a>
+            <button type="submit" class="btn btn-success" th:text="#{btn.search}"></button>
           </div>
         </div>
       </form>
@@ -76,12 +77,12 @@
           <table class="table table-dark table-striped mt-3">
             <thead>
               <tr>
-                <th scope="col">No.</th>
-                <th scope="col">メーカー</th>
-                <th scope="col">車名</th>
-                <th scope="col">エンジン</th>
-                <th scope="col">価格</th>
-                <th scope="col">コメント</th>
+                <th scope="col" th:text="#{label.motorcycleNo}"></th>
+                <th scope="col" th:text="#{label.brandName}"></th>
+                <th scope="col" th:text="#{label.motorcycleName}"></th>
+                <th scope="col" th:text="#{label.engine}"></th>
+                <th scope="col" th:text="#{label.price}"></th>
+                <th scope="col" th:text="#{label.comment}"></th>
               </tr>
             </thead>
             <tbody>
