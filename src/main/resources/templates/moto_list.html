@@ -94,7 +94,9 @@
               <tr th:each="motorcycle : ${motorcycles}" th:object="${motorcycle}">
                 <td th:text="*{motorcycleNo}"></td>
                 <td th:text="*{brand.brandName}"></td>
-                <td th:text="*{motorcycleName}"></td>
+                <td>
+                  <a th:href="@{/motos/} + *{motorcycleNo}" th:text="*{motorcycleName}"></a>
+                </td>
                 <td th:text="*{cooling} + *{cylinders} + 気筒"></td>
                 <td th:text="'¥ ' + *{#numbers.formatInteger(price, 3, 'COMMA')}" class="text-end"></td>
                 <td th:text="*{comment}"></td>

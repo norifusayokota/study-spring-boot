@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -71,6 +72,26 @@ public class MotosController {
         log.debug("motorcycles: {}", motorcycles);
 
         return "moto_list";
+    }
+
+    /**
+     * バイク情報を更新するための初期画面
+     * 
+     * @param searchForm 検索条件
+     * @param model      Model
+     * @return 遷移先（HTMLファイル）
+     */
+    @GetMapping("/motos/{motorcycleNo}")
+    public String initUpdate(@PathVariable int motorcycleNo, Model model) {
+        // ブランド一覧の準備
+        this.setBrands(model);
+
+        // バイク
+        Motorcycle motorcycle = motosService.getMotorcycle(motorcycleNo);
+
+        model.addAttribute("motorcycle", motorcycle);
+
+        return "moto";
     }
 
     /**
