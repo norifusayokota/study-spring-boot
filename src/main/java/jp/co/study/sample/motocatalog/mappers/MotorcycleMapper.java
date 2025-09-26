@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Update;
 
 import jp.co.study.sample.motocatalog.model.Motorcycle;
-import jp.co.study.sample.motocatalog.model.SearchCondition;
+import jp.co.study.sample.motocatalog.model.SearchForm;
 
 /* 
 MyBatisを用いてDBと接続する
@@ -22,7 +22,7 @@ public interface MotorcycleMapper {
      * @param condition 検索条件
      * @return バイク情報リスト
      */
-    public List<Motorcycle> selectByCondition(SearchCondition condition);
+    public List<Motorcycle> selectByCondition(SearchForm condition);
 
     /**
      * バイク情報をバイク番号（主キー）に従って検索する

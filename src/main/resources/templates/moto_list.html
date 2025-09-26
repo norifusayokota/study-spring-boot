@@ -16,10 +16,7 @@
     <!-- Google fonts の読み込み -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@500&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@500&display=swap" rel="stylesheet" />
 
     <style>
       body {
@@ -28,48 +25,51 @@
     </style>
   </head>
   <body>
-    <nav
-      class="navbar bg-dark border-bottom border-bottom-dark mb-3"
-      data-bs-theme="dark"
-    >
+    <nav class="navbar bg-dark border-bottom border-bottom-dark mb-3" data-bs-theme="dark">
       <div class="container-fluid">
         <span class="navbar-brand mb-0 h1">バイク管理</span>
       </div>
     </nav>
     <div class="container">
-      <div class="row">
-        <div class="col">
-          <div class="mb-3">
-            <label for="brand" class="form-label">バイクのメーカー</label>
-            <select
-              id="brand"
-              class="form-select"
-              aria-label="Default select example"
-            >
-              <option
-                th:each="brand : ${brands}"
-                th:text="${brand.brandName}"
-                th:value="${brand.brandId}"
-              ></option>
-            </select>
+      <form method="GET" th:action="@{/motos}">
+        <div class="row">
+          <div class="col">
+            <div class="mb-3">
+              <label for="brand" class="form-label">バイクのメーカー</label>
+              <select
+                id="brand"
+                class="form-select"
+                th:field="${searchForm.brandId}"
+                aria-label="Default select example"
+              >
+                <option value=""></option>
+                <option th:each="brand : ${brands}" th:text="${brand.brandName}" th:value="${brand.brandId}"></option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="mb-3">
+              <label for="keyword" class="form-label">キーワード検索</label>
+              <input
+                type="text"
+                class="form-control"
+                id="keyword"
+                th:field="${searchForm.keyword}"
+                placeholder="バイク名もしくはコメントの一部を入力して下しください"
+              />
+            </div>
           </div>
         </div>
 
-        <div class="col">
-          <div class="mb-3">
-            <label for="keyword" class="form-label">キーワード検索</label>
-            <input type="text" class="form-control" id="keyword" />
+        <div class="row">
+          <div class="col d-flex flex-row-reverse">
+            <button type="button" class="btn btn-primary">新規</button>
+            <a th:href="@{/motos/reset}" class="btn btn-danger mx-1">リセット</a>
+            <button type="submit" class="btn btn-success">検索</button>
           </div>
         </div>
-      </div>
-
-      <div class="row">
-        <div class="col d-flex flex-row-reverse">
-          <button type="button" class="btn btn-primary">新規</button>
-          <button type="button" class="btn btn-danger mx-1">リセット</button>
-          <button type="button" class="btn btn-success">検索</button>
-        </div>
-      </div>
+      </form>
 
       <div class="row">
         <div class="col">
@@ -85,10 +85,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr
-                th:each="motorcycle : ${motorcycles}"
-                th:object="${motorcycle}"
-              >
+              <tr th:each="motorcycle : ${motorcycles}" th:object="${motorcycle}">
                 <th scope="row" th:text="*{motorcycleNo}"></th>
                 <td th:text="*{brand.brandName}"></td>
                 <td th:text="*{motorcycleName}"></td>
