@@ -1,5 +1,6 @@
 package jp.co.study.sample.motocatalog.controllers;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,6 +64,7 @@ public class MotosController {
         motorcycles = motosService.getMotorcycleList(searchForm);
 
         model.addAttribute("motorcycles", motorcycles);
+        model.addAttribute("dateTime", LocalDateTime.now());
 
         // @Slf4jアノテーションのおかげでlogという変数名を使用することができる
         log.debug("motorcycles: {}", motorcycles);
