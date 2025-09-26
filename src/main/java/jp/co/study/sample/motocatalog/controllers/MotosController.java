@@ -1,5 +1,6 @@
 package jp.co.study.sample.motocatalog.controllers;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,13 +51,15 @@ public class MotosController {
         // searchFormのフィールド名と合致しているHTMLのname属性の内容が自動的に入る
         log.info("検索内容: {}", searchForm);
 
+        // ブランド一覧の準備
+        this.setBrands(model);
+
+        model.addAttribute("dateTime", LocalDateTime.now());
+
         if (result.hasErrors()) {
             // 入力チェックエラーがある場合
             return "moto_list";
         }
-
-        // ブランド一覧の準備
-        this.setBrands(model);
 
         // バイク
         List<Motorcycle> motorcycles = new ArrayList<>();
