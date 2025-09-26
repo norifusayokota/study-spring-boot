@@ -87,8 +87,15 @@ public class MotosController {
      * @return 遷移先（HTMLファイル）
      */
     @GetMapping("/motos/{motorcycleNo}")
-    public String initUpdate(@PathVariable int motorcycleNo, @ModelAttribute MotorcycleForm motorcycleForm,
-            Model model) {
+    /*
+     * @PathVariable
+     * →リクエストURLのルーティング定義（@GetMapping, @PostMapping など）で {} で囲まれた部分を変数として受け取ることができる
+     * 
+     * @ModelAttribute
+     * →リクエストのパラメータ（POST や GET）を、指定したオブジェクトのフィールドに自動的にセットする
+     * →バインディング対象のクラスには、getter/setterが必要
+     */
+    public String initUpdate(@PathVariable int motorcycleNo, @ModelAttribute MotorcycleForm motorcycleForm, Model model) {
         // ブランド一覧の準備
         this.setBrands(model);
 
@@ -98,7 +105,7 @@ public class MotosController {
         // バイク番号に従ったバイク情報を取得
         Motorcycle motorcycle = motosService.getMotorcycle(motorcycleNo);
         // 検索結果を入力内容に詰め替える
-        BeanUtils.copyProperties(motorcycle, motorcycleForm);
+        BeanUtils.copyProperties(motorcycle, motorcycleForm); // 同じ名前のプロパティを持つフィールドに対して、値をコピーする（第一引数を元に第二引数のフィールドにコピーする）
 
         return "moto";
     }
@@ -121,11 +128,10 @@ public class MotosController {
     }
 
     /**
-     * 検索条件をクリアする
+     * バイク情報を更新する
      * 
-     * @param searchForm 検索条件
-     * @param model      Model
-     * @return 遷移先（HTMLファイル）
+     * @param motorcycleForm 入力内容
+     * @return 遷移先（リダイレクト）
      */
     @PostMapping("/motos/save")
     public String save(@ModelAttribute MotorcycleForm motorcycleForm) {
