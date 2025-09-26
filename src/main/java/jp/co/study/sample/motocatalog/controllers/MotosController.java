@@ -4,16 +4,20 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import jp.co.study.sample.motocatalog.forms.MotorcycleForm;
 import jp.co.study.sample.motocatalog.model.Brand;
 import jp.co.study.sample.motocatalog.model.Motorcycle;
 import jp.co.study.sample.motocatalog.model.SearchForm;
@@ -77,19 +81,31 @@ public class MotosController {
     /**
      * バイク情報を更新するための初期画面
      * 
-     * @param searchForm 検索条件
-     * @param model      Model
+     * @param motorcycleNo   バイク番号
+     * @param motorcycleForm 入力内容
+     * @param model          Model
      * @return 遷移先（HTMLファイル）
      */
     @GetMapping("/motos/{motorcycleNo}")
-    public String initUpdate(@PathVariable int motorcycleNo, Model model) {
+    /*
+     * @PathVariable
+     * →リクエストURLのルーティング定義（@GetMapping, @PostMapping など）で {} で囲まれた部分を変数として受け取ることができる
+     * 
+     * @ModelAttribute
+     * →リクエストのパラメータ（POST や GET）を、指定したオブジェクトのフィールドに自動的にセットする
+     * →バインディング対象のクラスには、getter/setterが必要
+     */
+    public String initUpdate(@PathVariable int motorcycleNo, @ModelAttribute MotorcycleForm motorcycleForm, Model model) {
         // ブランド一覧の準備
         this.setBrands(model);
 
-        // バイク
-        Motorcycle motorcycle = motosService.getMotorcycle(motorcycleNo);
+        // 更新日時用
+        model.addAttribute("dateTime", LocalDateTime.now());
 
-        model.addAttribute("motorcycle", motorcycle);
+        // バイク番号に従ったバイク情報を取得
+        Motorcycle motorcycle = motosService.getMotorcycle(motorcycleNo);
+        // 検索結果を入力内容に詰め替える
+        BeanUtils.copyProperties(motorcycle, motorcycleForm); // 同じ名前のプロパティを持つフィールドに対して、値をコピーする（第一引数を元に第二引数のフィールドにコピーする）
 
         return "moto";
     }
@@ -109,6 +125,26 @@ public class MotosController {
         // 検索条件をクリア
         searchForm = new SearchForm();
         return "moto_list";
+    }
+
+    /**
+     * バイク情報を更新する
+     * 
+     * @param motorcycleForm 入力内容
+     * @return 遷移先（リダイレクト）
+     */
+    @PostMapping("/motos/save")
+    public String save(@ModelAttribute MotorcycleForm motorcycleForm) {
+        Motorcycle motorcycle = new Motorcycle();
+        // 入力内容を詰め替える
+        BeanUtils.copyProperties(motorcycleForm, motorcycle);
+
+        // バイク情報を更新する
+        motosService.save(motorcycle);
+
+        // リダイレクト（バイク情報の一覧へ遷移）
+        // 「redirect:」の後ろにすぐパスを記述しないとエラーになるので注意！！
+        return "redirect:/motos";
     }
 
     /**
