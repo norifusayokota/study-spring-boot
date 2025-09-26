@@ -36,23 +36,59 @@ public class MotosController {
         return "test";
     }
 
+    /**
+     * バイク情報の一覧を検索する
+     * 
+     * @param searchForm 検索条件
+     * @param model      Model
+     * @return 遷移先（HTMLファイル）
+     */
     @GetMapping("/motos")
-    public String motos(Model model) {
-        // ブランド
-        List<Brand> brands = new ArrayList<>();
-        brands = motosService.getBrand();
+    public String motos(SearchForm searchForm, Model model) {
+        // searchFormのフィールド名と合致しているHTMLのname属性の内容が自動的に入る
+        // log.info("検索内容: {}", searchForm);
+
+        // ブランド一覧の準備
+        this.setBrands(model);
 
         // バイク
         List<Motorcycle> motorcycles = new ArrayList<>();
-        SearchForm condition = new SearchForm();
-        motorcycles = motosService.getMotorcycleList(condition);
+        motorcycles = motosService.getMotorcycleList(searchForm);
 
-        model.addAttribute("brands", brands);
         model.addAttribute("motorcycles", motorcycles);
 
         // @Slf4jアノテーションのおかげでlogという変数名を使用することができる
         log.debug("motorcycles: {}", motorcycles);
 
         return "moto_list";
+    }
+
+    /**
+     * 検索条件をクリアする
+     * 
+     * @param searchForm 検索条件
+     * @param model      Model
+     * @return 遷移先（HTMLファイル）
+     */
+    @GetMapping("/motos/reset")
+    public String reset(SearchForm searchForm, Model model) {
+        // ブランド一覧の準備
+        this.setBrands(model);
+
+        // 検索条件をクリア
+        searchForm = new SearchForm();
+        return "moto_list";
+    }
+
+    /**
+     * ブランドの一覧をModelにセットする
+     * 
+     * @param model Model
+     */
+    private void setBrands(Model model) {
+        List<Brand> brands = new ArrayList<>();
+        brands = motosService.getBrand();
+
+        model.addAttribute("brands", brands);
     }
 }
