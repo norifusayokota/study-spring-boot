@@ -46,7 +46,7 @@ public class MotosController {
     @GetMapping("/motos")
     public String motos(SearchForm searchForm, Model model) {
         // searchFormのフィールド名と合致しているHTMLのname属性の内容が自動的に入る
-        // log.info("検索内容: {}", searchForm);
+        log.info("検索内容: {}", searchForm);
 
         // ブランド一覧の準備
         this.setBrands(model);
