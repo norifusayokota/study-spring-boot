@@ -12,6 +12,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Transactional;
 
 import jp.co.study.sample.motocatalog.model.Motorcycle;
 import jp.co.study.sample.motocatalog.model.SearchCondition;
@@ -156,6 +158,23 @@ public class MotosServiceTest {
         assertThat(motorcycle.getVersion()).isEqualTo(1);
         assertThat(motorcycle.getInsertDate().format(dtFormatter)).isEqualTo(LocalDateTime.now().format(dtFormatter));
         assertThat(motorcycle.getUpdateDate()).isNull();
-        ;
+    }
+
+    @DisplayName("バイク情報の更新")
+    @ParameterizedTest
+    @CsvSource({ "バイク情報の更新のための名前" })
+    @Transactional // トランザクション内でテストが実行され、デフォルトでは、テストの完了後に自動的にロールバックされるようになる（SQLのデータが下記のテストで書き換わったままになることを防ぐことができる）
+    @Rollback
+    void test011(String updateoMtorcycleName) {
+        Motorcycle before = service.getMotorcycle(1);
+        before.setMotorcycleName(updateoMtorcycleName);
+
+        service.save(before); // 更新（保存）
+
+        Motorcycle after = service.getMotorcycle(1); // 変更後のバイク情報の取得
+
+        assertThat(after.getMotorcycleName()).isEqualTo(updateoMtorcycleName);
+        assertThat(after.getVersion()).isEqualTo(before.getVersion() + 1);
+
     }
 }

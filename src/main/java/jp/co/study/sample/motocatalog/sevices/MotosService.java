@@ -22,9 +22,9 @@ public class MotosService {
     MotorcycleMapper motorcycleMapper;
 
     /*
-    * @Autowiredのアノテーションはまとめてつけることはできないので注意
-    * 下記のようにそれぞれにつける
-    */
+     * @Autowiredのアノテーションはまとめてつけることはできないので注意
+     * 下記のようにそれぞれにつける
+     */
     @Autowired
     BrandMapper brandMapper;
 
@@ -38,5 +38,9 @@ public class MotosService {
 
     public List<Brand> getBrand() {
         return brandMapper.selectAll();
+    }
+
+    public int save(Motorcycle motorcycle) {
+        return motorcycleMapper.update(motorcycle);
     }
 }

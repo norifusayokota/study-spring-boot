@@ -3,6 +3,7 @@ package jp.co.study.sample.motocatalog.mappers;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Update;
 
 import jp.co.study.sample.motocatalog.model.Motorcycle;
 import jp.co.study.sample.motocatalog.model.SearchCondition;
@@ -30,4 +31,13 @@ public interface MotorcycleMapper {
      * @return バイク情報
      */
     public Motorcycle selectByMotorcycleNo(int motorcycleNo);
+
+    /**
+     * バイク情報を更新する
+     * 
+     * @param motorcycle バイク情報
+     * @return 更新件数
+     */
+    @Update("UPDATE m_motorcycle SET motorcycle_name = #{motorcycleName}, seat_height = #{seatHeight}, cylinders = #{cylinders}, cooling = #{cooling}, price = #{price}, comment = #{comment}, brand_id = #{brand.brandId}, version = version + 1, insert_date = #{insertDate}, update_date = #{updateDate} WHERE motorcycle_no = #{motorcycleNo}")
+    public int update(Motorcycle motorcycle);
 }
