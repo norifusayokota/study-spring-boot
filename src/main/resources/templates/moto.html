@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title th:text="#{site.title}"></title>
+
+    <!-- Bootstrap 関連の読み込み -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+      crossorigin="anonymous"
+    />
+
+    <!-- Google fonts の読み込み -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@500&display=swap" rel="stylesheet" />
+
+    <style>
+      body {
+        font-family: "Kiwi Maru", serif;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar bg-dark border-bottom border-bottom-dark mb-3" data-bs-theme="dark">
+      <div class="container-fluid">
+        <span class="navbar-brand mb-0 h1" th:text="#{page.title}"></span>
+      </div>
+    </nav>
+
+    <div class="container">
+      <form method="GET" action="">
+        <div class="row">
+          <div class="col">
+            <label class="form-label" th:text="#{label.motorcycleNo}"></label>
+            <span th:text="${motorcycle.motorcycleNo}"></span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <label for="brand" class="form-label" th:text="#{searchForm.brand}"></label>
+            <select id="brand" class="form-select" aria-label="Default select example">
+              <option
+                th:each="brand : ${brands}"
+                th:field="${motorcycle.brand.brandId}"
+                th:text="${brand.brandName}"
+                th:value="${brand.brandId}"
+              ></option>
+            </select>
+          </div>
+          <div class="col">
+            <label for="motorcycleName" class="form-label" th:text="#{label.motorcycleName}"></label>
+            <input
+              type="text"
+              class="form-control"
+              id="motorcycleName"
+              placeholder=""
+              th:field="${motorcycle.motorcycleName}"
+            />
+          </div>
+          <div class="col">
+            <label for="seatHeight" class="form-label" th:text="#{label.seatHeight}"></label>
+            <input
+              type="text"
+              class="form-control"
+              id="seatHeight"
+              placeholder=""
+              th:field="${motorcycle.seatHeight}"
+            />
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <label for="cylinders" class="form-label" th:text="#{label.cylinders}"></label>
+            <input type="text" class="form-control" id="cylinders" placeholder="" th:field="${motorcycle.cylinders}" />
+          </div>
+          <div class="col">
+            <label for="cooling" class="form-label" th:text="#{label.cooling}"></label>
+            <input type="text" class="form-control" id="cooling" placeholder="" th:field="${motorcycle.cooling}" />
+          </div>
+          <div class="col">
+            <label for="price" class="form-label" th:text="#{label.price}"></label>
+            <input type="text" class="form-control" id="price" placeholder="" th:field="${motorcycle.price}" />
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <label for="comment" class="form-label" th:text="#{label.comment}"></label>
+            <textarea class="form-control" id="comment" rows="3" th:field="${motorcycle.comment}"></textarea>
+          </div>
+        </div>
+
+        <div class="row mt-2">
+          <div class="col text-end">
+            <button type="submit" class="btn btn-success" th:text="#{btn.save}"></button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Bootstrap 関連の読み込み -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
