@@ -58,6 +58,7 @@
                 th:field="${searchForm.keyword}"
                 placeholder="バイク名もしくはコメントの一部を入力して下しください"
               />
+              <div class="text-danger" th:errors="${searchForm.keyword}"></div>
             </div>
           </div>
         </div>
