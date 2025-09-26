@@ -22,4 +22,12 @@ public interface MotorcycleMapper {
      * @return バイク情報リスト
      */
     public List<Motorcycle> selectByCondition(SearchCondition condition);
+
+    /**
+     * バイク情報をバイク番号（主キー）に従って検索する
+     * 
+     * @param motorcycleNo バイク番号
+     * @return バイク情報
+     */
+    public Motorcycle selectByMotorcycleNo(int motorcycleNo);
 }

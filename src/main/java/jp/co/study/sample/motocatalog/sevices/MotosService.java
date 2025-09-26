@@ -28,8 +28,12 @@ public class MotosService {
     @Autowired
     BrandMapper brandMapper;
 
-    public List<Motorcycle> getMotorcycle(SearchCondition condition) {
+    public List<Motorcycle> getMotorcycleList(SearchCondition condition) {
         return motorcycleMapper.selectByCondition(condition);
+    }
+
+    public Motorcycle getMotorcycle(int motorcycleNo) {
+        return motorcycleMapper.selectByMotorcycleNo(motorcycleNo);
     }
 
     public List<Brand> getBrand() {

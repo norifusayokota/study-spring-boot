@@ -9,6 +9,8 @@ import lombok.Data;
 public class SearchCondition {
     // ブランドID
     private String brandId;
+    // バイク番号
+    private String motorcycleNo;
     // キーワード
     private String keyword;
 }

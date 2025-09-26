@@ -24,7 +24,8 @@ public class MotosController {
     MotosService motosService;
 
     // ログ部品を使えるようにする
-    // private static final Logger log = LoggerFactory.getLogger(MotosController.class);
+    // private static final Logger log =
+    // LoggerFactory.getLogger(MotosController.class);
     // →上記が定型的な書き方だが、Lombokの@Slf4jアノテーションをクラスに付与することで、log変数が自動生成される
 
     @RequestMapping("/test")
@@ -43,8 +44,8 @@ public class MotosController {
 
         // バイク
         List<Motorcycle> motorcycles = new ArrayList<>();
-        SearchCondition condition =new SearchCondition();
-        motorcycles = motosService.getMotorcycle(condition);
+        SearchCondition condition = new SearchCondition();
+        motorcycles = motosService.getMotorcycleList(condition);
 
         model.addAttribute("brands", brands);
         model.addAttribute("motorcycles", motorcycles);
