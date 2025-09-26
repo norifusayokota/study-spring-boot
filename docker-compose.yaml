@@ -8,5 +8,6 @@ services:
       MYSQL_DATABASE: motocatalog_db # DB名
       MYSQL_USER: develop # ユーザー名
       MYSQL_PASSWORD: develop # パスワード
+      TZ: Asia/Tokyo
     ports:
       - 3306:3306 # コンテナ外部からアクセスできるようにする

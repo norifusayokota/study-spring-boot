@@ -9,7 +9,7 @@
     MotorcycleMapper.javaのメソッドとidを一致させる 
     SQL文を実行したときの結果の型がMotorcycle.javaと一致するようにする
     -->
-    <select id="selectAll" resultMap="motorcycleMap">
+    <select id="selectByCondition" resultMap="motorcycleMap">
         SELECT
             m_motorcycle.motorcycle_no,
             m_motorcycle.motorcycle_name,
@@ -23,8 +23,46 @@
             m_motorcycle 
             LEFT OUTER JOIN	m_brand
                 ON m_motorcycle.brand_id = m_brand.brand_id
+        <!--
+        WHERE
+            m_brand.brand_id = #{brandId} 
+
+            →SearchCondition.javaで定義したフィールド名を「#{}」に入れることで変数の値の参照ができる
+         -->
+        <!-- 条件が複数ある場合 -->
+        <where>
+            <if test="brandId != null">
+                AND m_brand.brand_id = #{brandId}
+            </if>
+            <if test="keyword != null">
+                <!-- AND m_motorcycle.motorcycle_name = #{keyword} -->
+                AND m_motorcycle.motorcycle_name LIKE CONCAT("%", #{keyword}, "%")
+            </if>
+        </where>
         ORDER BY
             motorcycle_no;
+    </select>
+
+       <select id="selectByMotorcycleNo" resultMap="motorcycleMap">
+        SELECT
+            m_motorcycle.motorcycle_no,
+            m_motorcycle.motorcycle_name,
+            m_motorcycle.seat_height,
+            m_motorcycle.cylinders,
+            m_motorcycle.cooling,
+            m_motorcycle.price,
+            m_motorcycle.comment,
+            m_motorcycle.version,
+            m_motorcycle.insert_date,
+            m_motorcycle.update_date,
+            m_brand.brand_id,
+            m_brand.brand_name
+        FROM
+            m_motorcycle 
+            LEFT OUTER JOIN	m_brand
+                ON m_motorcycle.brand_id = m_brand.brand_id
+        WHERE
+            m_motorcycle.motorcycle_no = #{motorcycleNo} 
     </select>
 </mapper>
 <!-- https://mybatis.org/mybatis-3/ja/getting-started.htmlを参照 -->

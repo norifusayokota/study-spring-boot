@@ -9,6 +9,7 @@ import jp.co.study.sample.motocatalog.mappers.BrandMapper;
 import jp.co.study.sample.motocatalog.mappers.MotorcycleMapper;
 import jp.co.study.sample.motocatalog.model.Brand;
 import jp.co.study.sample.motocatalog.model.Motorcycle;
+import jp.co.study.sample.motocatalog.model.SearchCondition;
 
 @Service
 public class MotosService {
@@ -21,17 +22,25 @@ public class MotosService {
     MotorcycleMapper motorcycleMapper;
 
     /*
-    * @Autowiredのアノテーションはまとめてつけることはできないので注意
-    * 下記のようにそれぞれにつける
-    */
+     * @Autowiredのアノテーションはまとめてつけることはできないので注意
+     * 下記のようにそれぞれにつける
+     */
     @Autowired
     BrandMapper brandMapper;
 
-    public List<Motorcycle> getMotorcycle() {
-        return motorcycleMapper.selectAll();
+    public List<Motorcycle> getMotorcycleList(SearchCondition condition) {
+        return motorcycleMapper.selectByCondition(condition);
+    }
+
+    public Motorcycle getMotorcycle(int motorcycleNo) {
+        return motorcycleMapper.selectByMotorcycleNo(motorcycleNo);
     }
 
     public List<Brand> getBrand() {
         return brandMapper.selectAll();
+    }
+
+    public int save(Motorcycle motorcycle) {
+        return motorcycleMapper.update(motorcycle);
     }
 }

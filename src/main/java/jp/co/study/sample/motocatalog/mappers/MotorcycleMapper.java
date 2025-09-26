@@ -3,8 +3,10 @@ package jp.co.study.sample.motocatalog.mappers;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Update;
 
 import jp.co.study.sample.motocatalog.model.Motorcycle;
+import jp.co.study.sample.motocatalog.model.SearchCondition;
 
 /* 
 MyBatisを用いてDBと接続する
@@ -15,9 +17,27 @@ MyBatisを用いてDBと接続する
 public interface MotorcycleMapper {
 
     /**
-     * バイク情報を全件検索する
+     * バイク情報を検索条件に従って検索する
      * 
+     * @param condition 検索条件
      * @return バイク情報リスト
      */
-    public List<Motorcycle> selectAll();
+    public List<Motorcycle> selectByCondition(SearchCondition condition);
+
+    /**
+     * バイク情報をバイク番号（主キー）に従って検索する
+     * 
+     * @param motorcycleNo バイク番号
+     * @return バイク情報
+     */
+    public Motorcycle selectByMotorcycleNo(int motorcycleNo);
+
+    /**
+     * バイク情報を更新する
+     * 
+     * @param motorcycle バイク情報
+     * @return 更新件数
+     */
+    @Update("UPDATE m_motorcycle SET motorcycle_name = #{motorcycleName}, seat_height = #{seatHeight}, cylinders = #{cylinders}, cooling = #{cooling}, price = #{price}, comment = #{comment}, brand_id = #{brand.brandId}, version = version + 1, insert_date = #{insertDate}, update_date = #{updateDate} WHERE motorcycle_no = #{motorcycleNo}")
+    public int update(Motorcycle motorcycle);
 }
