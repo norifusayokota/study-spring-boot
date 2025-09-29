@@ -35,10 +35,21 @@
       <form method="POST" th:action="@{/motos/save}" th:object="${motorcycleForm}">
         <div class="row">
           <div class="col">
+            <div
+              class="alert alert-danger"
+              role="alert"
+              th:each="error: ${#fields.errors('*')}"
+              th:text="${error}"
+            ></div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
             <label class="form-label" th:text="#{label.motorcycleNo}"></label>
             <span th:text="*{motorcycleNo}"></span>
             <input type="hidden" name="motorcycleNo" th:field="*{motorcycleNo}" />
-            <input type="hidden" name="version" th:value="*{version + 1 }" />
+            <input type="hidden" name="version" th:value="*{version}" />
             <input type="hidden" name="insertDate" th:field="*{insertDate}" />
             <input type="hidden" name="updateDate" th:value="${dateTime}" />
           </div>

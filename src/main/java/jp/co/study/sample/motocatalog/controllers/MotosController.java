@@ -6,9 +6,11 @@ import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -131,20 +133,31 @@ public class MotosController {
      * バイク情報を更新する
      * 
      * @param motorcycleForm 入力内容
+     * @param result         MotosServiceのsaveメソッドの結果
      * @return 遷移先（リダイレクト）
      */
+    /*
+     * BindingResult
+     * →フォームの入力値をオブジェクトにバインド（結びつけ）する際に発生したバリデーションエラーや変換エラーの情報を保持するためのオブジェクト
+     */
     @PostMapping("/motos/save")
-    public String save(@ModelAttribute MotorcycleForm motorcycleForm) {
-        Motorcycle motorcycle = new Motorcycle();
-        // 入力内容を詰め替える
-        BeanUtils.copyProperties(motorcycleForm, motorcycle);
+    public String save(@ModelAttribute MotorcycleForm motorcycleForm, BindingResult result) {
+        try {
+            Motorcycle motorcycle = new Motorcycle();
+            // 入力内容を詰め替える
+            BeanUtils.copyProperties(motorcycleForm, motorcycle);
 
-        // バイク情報を更新する
-        motosService.save(motorcycle);
+            // バイク情報を更新する
+            motosService.save(motorcycle);
 
-        // リダイレクト（バイク情報の一覧へ遷移）
-        // 「redirect:」の後ろにすぐパスを記述しないとエラーになるので注意！！
-        return "redirect:/motos";
+            // リダイレクト（バイク情報の一覧へ遷移）
+            // 「redirect:」の後ろにすぐパスを記述しないとエラーになるので注意！！
+            return "redirect:/motos";
+        } catch (OptimisticLockingFailureException e) {
+            result.addError(new ObjectError("global", e.getMessage()));
+
+            return "moto";
+        }
     }
 
     /**
