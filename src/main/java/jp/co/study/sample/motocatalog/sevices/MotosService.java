@@ -1,8 +1,10 @@
 package jp.co.study.sample.motocatalog.sevices;
 
 import java.util.List;
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +17,19 @@ import jp.co.study.sample.motocatalog.model.SearchForm;
 
 @Service
 public class MotosService {
+
+    /*
+     * Spring Framework における 国際化（i18n）やメッセージ管理のためのインターフェース
+     * →つまり、多言語対応のメッセージを管理・取得する仕組み
+     * →プレースホルダー（{0}, {1}）を使った動的メッセージの生成ができる
+     * 
+     * getMessageメソッドに関して
+     * String getMessage(String code, Object[] args, Locale locale)
+     * →args: プレースホルダーに埋め込む値
+     *        →プレースホルダーがない場合: nullを使うのがベスト
+     */
+    @Autowired
+    MessageSource messageSource;
 
     /*
      * SpringのDIコンテナ（アプリ起動時にSpringフレームワークが特定のオブジェクトをインスタンス化しており、そのインスタンスを保管してある場所）から
@@ -74,12 +89,19 @@ public class MotosService {
 
         // 更新できなかった場合: 別の画面で更新がされたか削除されたデータのため、楽観的排他エラーとする
         if (updateCount == 0) {
-            throw new OptimisticLockingFailureException("楽観的排他エラー");
+            /*
+             * OptimisticLockingFailureException
+             * →Spring Frameworkで定義されている例外クラス
+             * →「競合が起きた」と判断して例外を投げる場合に使用する
+             */
+            throw new OptimisticLockingFailureException(
+                    messageSource.getMessage("error.optimisticLockingFailure", null, Locale.JAPANESE));
         }
 
         // 2件以上の更新の場合: 想定外の挙動のため、SQL の不備の可能性が高い
         if (updateCount > 1) {
-            throw new RuntimeException("2件以上更新されました");
+            throw new RuntimeException(
+                    messageSource.getMessage("error.runtime", new String[] { "2件以上更新されました" }, Locale.JAPANESE));
         }
 
         return updateCount;
