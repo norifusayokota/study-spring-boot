@@ -46,7 +46,7 @@
 
         <div class="row">
           <div class="col">
-            <label class="form-label" th:text="#{label.motorcycleNo}"></label>
+            <label class="form-label" th:text="#{update.motorcycleNo}"></label>
             <span th:text="*{motorcycleNo}"></span>
             <input type="hidden" name="motorcycleNo" th:field="*{motorcycleNo}" />
             <input type="hidden" name="version" th:value="*{version}" />
@@ -56,46 +56,51 @@
         </div>
         <div class="row">
           <div class="col">
-            <label for="brand" class="form-label" th:text="#{searchForm.brand}"></label>
+            <label for="brand" class="form-label" th:text="#{update.brandName}"></label>
             <select id="brand" class="form-select" th:field="*{brand.brandId}" aria-label="Default select example">
               <option th:each="brand : ${brands}" th:text="${brand.brandName}" th:value="${brand.brandId}"></option>
             </select>
           </div>
           <div class="col">
-            <label for="motorcycleName" class="form-label" th:text="#{label.motorcycleName}"></label>
-            <input type="text" class="form-control" id="motorcycleName" placeholder="" th:field="*{motorcycleName}" />
+            <label for="motorcycleName" class="form-label" th:text="#{update.motorcycleName}"></label>
+            <input type="text" class="form-control" id="motorcycleName" th:field="*{motorcycleName}" />
           </div>
           <div class="col">
-            <label for="seatHeight" class="form-label" th:text="#{label.seatHeight}"></label>
-            <input type="text" class="form-control" id="seatHeight" placeholder="" th:field="*{seatHeight}" />
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col">
-            <label for="cylinders" class="form-label" th:text="#{label.cylinders}"></label>
-            <input type="text" class="form-control" id="cylinders" placeholder="" th:field="*{cylinders}" />
-          </div>
-          <div class="col">
-            <label for="cooling" class="form-label" th:text="#{label.cooling}"></label>
-            <input type="text" class="form-control" id="cooling" placeholder="" th:field="*{cooling}" />
-          </div>
-          <div class="col">
-            <label for="price" class="form-label" th:text="#{label.price}"></label>
-            <input type="text" class="form-control" id="price" placeholder="" th:field="*{price}" />
+            <label for="seatHeight" class="form-label" th:text="#{update.seatHeight}"></label>
+            <input type="text" class="form-control" id="seatHeight" th:field="*{seatHeight}" />
           </div>
         </div>
 
         <div class="row">
           <div class="col">
-            <label for="comment" class="form-label" th:text="#{label.comment}"></label>
+            <label for="cylinders" class="form-label" th:text="#{update.cylinders}"></label>
+            <div class="row">
+              <div class="col-9">
+                <input type="text" class="form-control" id="cylinders" th:field="*{cylinders}" />
+              </div>
+              <div class="col-3 d-flex align-self-center justify-content-end" th:text="#{update.cylinderTag}"></div>
+            </div>
+          </div>
+          <div class="col">
+            <label for="cooling" class="form-label" th:text="#{update.cooling}"></label>
+            <input type="text" class="form-control" id="cooling" th:field="*{cooling}" />
+          </div>
+          <div class="col">
+            <label for="price" class="form-label" th:text="#{update.price}"></label>
+            <input type="text" class="form-control" id="price" th:field="*{price}" />
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <label for="comment" class="form-label" th:text="#{update.comment}"></label>
             <textarea class="form-control" id="comment" rows="3" th:field="*{comment}"></textarea>
           </div>
         </div>
 
         <div class="row mt-2">
           <div class="col text-end">
-            <button type="submit" class="btn btn-success" th:text="#{btn.save}"></button>
+            <button type="submit" class="btn btn-success" th:text="#{btn.update}"></button>
           </div>
         </div>
       </form>
