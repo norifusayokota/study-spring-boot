@@ -134,6 +134,7 @@ public class MotosController {
      * 
      * @param motorcycleForm 入力内容
      * @param result         MotosServiceのsaveメソッドの結果
+     * @param model          Model
      * @return 遷移先（リダイレクト）
      */
     /*
@@ -141,7 +142,7 @@ public class MotosController {
      * →フォームの入力値をオブジェクトにバインド（結びつけ）する際に発生したバリデーションエラーや変換エラーの情報を保持するためのオブジェクト
      */
     @PostMapping("/motos/save")
-    public String save(@ModelAttribute MotorcycleForm motorcycleForm, BindingResult result) {
+    public String save(@ModelAttribute MotorcycleForm motorcycleForm, BindingResult result, Model model) {
         try {
             Motorcycle motorcycle = new Motorcycle();
             // 入力内容を詰め替える
@@ -154,6 +155,9 @@ public class MotosController {
             // 「redirect:」の後ろにすぐパスを記述しないとエラーになるので注意！！
             return "redirect:/motos";
         } catch (OptimisticLockingFailureException e) {
+            // ブランド一覧の準備
+            this.setBrands(model);
+
             result.addError(new ObjectError("global", e.getMessage()));
 
             return "moto";
