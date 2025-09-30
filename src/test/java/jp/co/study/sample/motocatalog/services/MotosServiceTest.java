@@ -211,4 +211,18 @@ public class MotosServiceTest {
         assertThat(after.getInsertDate().format(dtFormatter)).isEqualTo(LocalDateTime.now().format(dtFormatter));
         assertThat(after.getUpdateDate()).isNull();
     }
+
+    @DisplayName("バイク情報の削除")
+    @Test
+    @Transactional
+    @Rollback
+    void test013() {
+        Motorcycle before = service.getMotorcycle(1);
+
+        service.delete(before); // 削除
+
+        Motorcycle after = service.getMotorcycle(1); // 削除後のバイク情報の取得
+
+        assertThat(after).isNull();
+    }
 }
