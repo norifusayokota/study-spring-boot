@@ -15,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
+import jp.co.study.sample.motocatalog.model.Brand;
 import jp.co.study.sample.motocatalog.model.Motorcycle;
 import jp.co.study.sample.motocatalog.model.SearchForm;
 import jp.co.study.sample.motocatalog.sevices.MotosService;
@@ -175,6 +176,39 @@ public class MotosServiceTest {
 
         assertThat(after.getMotorcycleName()).isEqualTo(updateoMtorcycleName);
         assertThat(after.getVersion()).isEqualTo(before.getVersion() + 1);
+    }
 
+    @DisplayName("バイク情報の登録")
+    @Test
+    @Transactional
+    @Rollback
+    void test012() {
+        Motorcycle before = new Motorcycle();
+
+        before.setMotorcycleName("登録テスト");
+        before.setSeatHeight(999);
+        before.setCylinders(9);
+        before.setCooling("テスト");
+        before.setPrice(9999999);
+        before.setComment("登録テスト、登録テスト、登録テスト。");
+        before.setBrand(new Brand("01", "Honda"));
+        before.setVersion(1);
+        before.setInsertDate(LocalDateTime.now());
+
+        service.save(before); // 登録（保存）
+
+        Motorcycle after = service.getMotorcycle(11); // 登録後のバイク情報の取得
+
+        assertThat(after.getMotorcycleNo()).isEqualTo(11);
+        assertThat(after.getMotorcycleName()).isEqualTo("登録テスト");
+        assertThat(after.getSeatHeight()).isEqualTo(999);
+        assertThat(after.getCylinders()).isEqualTo(9);
+        assertThat(after.getCooling()).isEqualTo("テスト");
+        assertThat(after.getPrice()).isEqualTo(9999999);
+        assertThat(after.getComment()).isEqualTo("登録テスト、登録テスト、登録テスト。");
+        assertThat(after.getBrand().getBrandId()).isEqualTo("01");
+        assertThat(after.getVersion()).isEqualTo(1);
+        assertThat(after.getInsertDate().format(dtFormatter)).isEqualTo(LocalDateTime.now().format(dtFormatter));
+        assertThat(after.getUpdateDate()).isNull();
     }
 }

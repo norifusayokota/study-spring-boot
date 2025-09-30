@@ -44,7 +44,7 @@
           </div>
         </div>
 
-        <div class="row">
+        <div class="row" th:if="*{motorcycleNo}">
           <div class="col">
             <label class="form-label" th:text="#{update.motorcycleNo}"></label>
             <span th:text="*{motorcycleNo}"></span>
@@ -54,6 +54,7 @@
             <input type="hidden" name="updateDate" th:value="${dateTime}" />
           </div>
         </div>
+
         <div class="row">
           <div class="col">
             <label for="brand" class="form-label" th:text="#{update.brandName}"></label>
@@ -100,7 +101,11 @@
 
         <div class="row mt-2">
           <div class="col text-end">
-            <button type="submit" class="btn btn-success" th:text="#{btn.update}"></button>
+            <button
+              type="submit"
+              class="btn btn-success"
+              th:text="*{motorcycleNo} ? #{btn.update} : #{btn.new}"
+            ></button>
           </div>
         </div>
       </form>

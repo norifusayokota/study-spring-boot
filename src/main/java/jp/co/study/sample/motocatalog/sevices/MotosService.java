@@ -59,9 +59,9 @@ public class MotosService {
     }
 
     /**
-     * バイクの番号（プライマリキー）に従ったバイク情報を取得する
+     * バイクの番号（主キー）に従ったバイク情報を取得する
      * 
-     * @param motorcycleNo バイクの番号（プライマリキー）
+     * @param motorcycleNo バイクの番号（主キー）
      * @return バイクの情報
      */
     public Motorcycle getMotorcycle(int motorcycleNo) {
@@ -78,13 +78,55 @@ public class MotosService {
     }
 
     /**
+     * バイク情報を保存する
+     * 
+     * @param motorcycle バイク情報
+     * @return 保存件数
+     */
+    public int save(Motorcycle motorcycle) {
+        // 登録
+        if (motorcycle.getMotorcycleNo() == null) {
+            return this.register(motorcycle);
+        }
+        // 更新
+        else {
+            return this.update(motorcycle);
+        }
+    }
+
+    /**
+     * バイク情報を登録する
+     * 
+     * @param motorcycle バイク情報
+     * @return 登録件数
+     */
+    @Transactional
+    private int register(Motorcycle motorcycle) {
+        // 新しいバイク番号を発行して使う
+        Integer newMotorcycleNo = motorcycleMapper.selectNewMotorcycleNo();
+        motorcycle.setMotorcycleNo(newMotorcycleNo);
+        System.out.println(newMotorcycleNo);
+
+        // バイク情報の登録
+        int updateCount = motorcycleMapper.insert(motorcycle);
+
+        // 登録できなかった場合: 想定外の挙動のため、SQL の不備の可能性が高い
+        if (updateCount == 0) {
+            throw new RuntimeException(
+                    messageSource.getMessage("error.runtime", new String[] { "登録に失敗しました" }, Locale.JAPANESE));
+        }
+
+        return updateCount;
+    }
+
+    /**
      * バイク情報を更新する
      * 
      * @param motorcycle バイク情報
      * @return 更新件数
      */
     @Transactional
-    public int save(Motorcycle motorcycle) {
+    private int update(Motorcycle motorcycle) {
         int updateCount = motorcycleMapper.update(motorcycle);
 
         // 更新できなかった場合: 別の画面で更新がされたか削除されたデータのため、楽観的排他エラーとする

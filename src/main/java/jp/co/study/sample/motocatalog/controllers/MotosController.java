@@ -81,6 +81,21 @@ public class MotosController {
     }
 
     /**
+     * バイク情報を登録するための初期画面
+     * 
+     * @param motorcycleForm 入力内容
+     * @return 遷移先
+     */
+    @GetMapping("/motos/new")
+    public String initNew(@ModelAttribute MotorcycleForm motorcycleForm, Model model) {
+        // ブランド一覧の準備
+        this.setBrands(model);
+
+        return "moto";
+
+    }
+
+    /**
      * バイク情報を更新するための初期画面
      * 
      * @param motorcycleNo   バイク番号
