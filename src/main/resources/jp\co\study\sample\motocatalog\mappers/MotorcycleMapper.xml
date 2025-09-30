@@ -16,7 +16,7 @@
             m_motorcycle.cylinders,
             m_motorcycle.cooling,
             m_motorcycle.price,
-            m_motorcycle.`comment`,
+            m_motorcycle.comment,
             m_brand.brand_id,
             m_brand.brand_name
         FROM
@@ -43,7 +43,7 @@
             motorcycle_no;
     </select>
 
-       <select id="selectByMotorcycleNo" resultMap="motorcycleMap">
+    <select id="selectByMotorcycleNo" resultMap="motorcycleMap">
         SELECT
             m_motorcycle.motorcycle_no,
             m_motorcycle.motorcycle_name,
@@ -64,5 +64,43 @@
         WHERE
             m_motorcycle.motorcycle_no = #{motorcycleNo} 
     </select>
+
+    <select id="selectNewMotorcycleNo" resultType="Integer">
+        SELECT
+            MAX(m_motorcycle.motorcycle_no) + 1
+        FROM
+            m_motorcycle
+        FOR UPDATE <!-- SELECT文で取得した行に対してロックをかけるための構文 -->
+    </select>
+
+    <insert id="insert" parameterType="jp.co.study.sample.motocatalog.model.Motorcycle">
+        INSERT INTO
+            m_motorcycle 
+            (
+                motorcycle_no,
+                motorcycle_name,
+                seat_height,
+                cylinders,
+                cooling,
+                price,
+                comment,
+                version,
+                insert_date,
+                brand_id
+            )
+        VALUES
+            (
+                #{motorcycleNo},
+                #{motorcycleName},
+                #{seatHeight},
+                #{cylinders},
+                #{cooling},
+                #{price},
+                #{comment},
+                1,
+                NOW(),
+                #{brand.brandId}
+            )
+    </insert>
 </mapper>
 <!-- https://mybatis.org/mybatis-3/ja/getting-started.htmlを参照 -->

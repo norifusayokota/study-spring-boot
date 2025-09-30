@@ -2,6 +2,7 @@ package jp.co.study.sample.motocatalog.mappers;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Update;
 
@@ -33,6 +34,21 @@ public interface MotorcycleMapper {
     public Motorcycle selectByMotorcycleNo(int motorcycleNo);
 
     /**
+     * 新しいバイク情報のバイク番号（主キー）を生成する
+     * 
+     * @return バイク番号
+     */
+    public Integer selectNewMotorcycleNo();
+
+    /**
+     * バイク情報を登録する
+     * 
+     * @param motorcycle バイク情報
+     * @return 更新件数
+     */
+    public int insert(Motorcycle motorcycle);
+
+    /**
      * バイク情報を更新する
      * 
      * @param motorcycle バイク情報
@@ -40,4 +56,13 @@ public interface MotorcycleMapper {
      */
     @Update("UPDATE m_motorcycle SET motorcycle_name = #{motorcycleName}, seat_height = #{seatHeight}, cylinders = #{cylinders}, cooling = #{cooling}, price = #{price}, comment = #{comment}, brand_id = #{brand.brandId}, version = #{version} + 1, insert_date = #{insertDate}, update_date = #{updateDate} WHERE motorcycle_no = #{motorcycleNo} AND version = #{version}")
     public int update(Motorcycle motorcycle);
+
+    /**
+     * バイク情報を削除する
+     * 
+     * @param motorcycle バイク情報
+     * @return 削除件数
+     */
+    @Delete("DELETE FROM m_motorcycle WHERE motorcycle_no = #{motorcycleNo} AND version = #{version}")
+    public int delete(Motorcycle motorcycle);
 }
