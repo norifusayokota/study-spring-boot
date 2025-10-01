@@ -20,9 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import jp.co.study.sample.motocatalog.forms.MotorcycleForm;
+import jp.co.study.sample.motocatalog.forms.SearchForm;
 import jp.co.study.sample.motocatalog.model.Brand;
 import jp.co.study.sample.motocatalog.model.Motorcycle;
-import jp.co.study.sample.motocatalog.model.SearchForm;
 import jp.co.study.sample.motocatalog.sevices.MotosService;
 import lombok.extern.slf4j.Slf4j;
 
