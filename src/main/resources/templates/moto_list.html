@@ -97,9 +97,32 @@
                 <td>
                   <a th:href="@{/motos/} + *{motorcycleNo}" th:text="*{motorcycleName}"></a>
                 </td>
-                <td th:text="*{cooling} + *{cylinders} + 気筒"></td>
-                <td th:text="'¥ ' + *{#numbers.formatInteger(price, 3, 'COMMA')}" class="text-end"></td>
-                <td th:text="*{comment}"></td>
+
+                <!-- 
+                  <td
+                    th:if="*{cooling} != null and *{cylinders} != null"
+                    th:text="*{cooling} + *{cylinders} + '気筒'"
+                  ></td>
+                  th:text="-"と「-」を文字列の扱いにしないとエラーになるので注意！！
+                  <td th:unless="*{cooling} != null and *{cylinders} != null" th:text="'-'"></td>
+
+                  上記よりは下記の方がシンプル
+                -->
+                <td th:if="*{cooling} == null and *{cylinders} == null" th:text="'-'"></td>
+                <td th:unless="*{cooling} == null and *{cylinders} == null">
+                  <span th:text="*{cooling}"></span><span th:text="*{cylinders}"></span
+                  ><span th:if="*{cylinders} != null" th:text="#{label.cylindersTag}"></span>
+                </td>
+
+                <td
+                  th:if="*{price} != null"
+                  th:text="'¥ ' + *{#numbers.formatInteger(price, 3, 'COMMA')}"
+                  class="text-end"
+                ></td>
+                <td th:unless="*{price} != null" th:text="'-'"></td>
+
+                <td th:if="*{comment} != null" th:text="*{comment}"></td>
+                <td th:unless="*{comment} != null" th:text="'-'"></td>
               </tr>
             </tbody>
           </table>

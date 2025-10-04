@@ -35,10 +35,11 @@
       <form method="POST" th:object="${motorcycleForm}">
         <div class="row">
           <div class="col">
+            <!-- result.addError(new ObjectError("global", e.getMessage()));で設定した名前のみ表示するようにしている -->
             <div
               class="alert alert-danger"
               role="alert"
-              th:each="error: ${#fields.errors('*')}"
+              th:each="error: ${#fields.errors('global')}"
               th:text="${error}"
             ></div>
           </div>
@@ -46,7 +47,7 @@
 
         <div class="row" th:if="*{motorcycleNo}">
           <div class="col">
-            <label class="form-label" th:text="#{update.motorcycleNo}"></label>
+            <label class="form-label" th:text="#{save.motorcycleNo}"></label>
             <span th:text="*{motorcycleNo}"></span>
             <input type="hidden" name="motorcycleNo" th:field="*{motorcycleNo}" />
             <input type="hidden" name="version" th:value="*{version}" />
@@ -57,45 +58,108 @@
 
         <div class="row">
           <div class="col">
-            <label for="brand" class="form-label" th:text="#{update.brandName}"></label>
-            <select id="brand" class="form-select" th:field="*{brand.brandId}" aria-label="Default select example">
+            <label for="brand" class="form-label mr-2" th:text="#{save.brandName}"></label>
+            <span class="badge text-bg-danger">必須</span>
+            <!-- th:fieldにより「<select th:field="*{brand.brandId}">」は「<select name="brand.brandId" id="brand_brandId">」と自動的に変換されるようになる -->
+            <select
+              id="brand"
+              class="form-select"
+              th:field="*{brand.brandId}"
+              aria-label="Default select example"
+              th:errorClass="is-invalid"
+            >
+              <option value=""></option>
               <option th:each="brand : ${brands}" th:text="${brand.brandName}" th:value="${brand.brandId}"></option>
             </select>
+            <!-- th:field="*{brand.brandId}"とth:errors="*{brand.brandId}"を合わせないと「th:errorClass="is-invalid"」が機能せず、エラー文が表示されないことになるので注意！！ -->
+            <div th:errors="*{brand.brandId}" class="invalid-feedback"></div>
           </div>
           <div class="col">
-            <label for="motorcycleName" class="form-label" th:text="#{update.motorcycleName}"></label>
-            <input type="text" class="form-control" id="motorcycleName" th:field="*{motorcycleName}" />
+            <label for="motorcycleName" class="form-label mr-2" th:text="#{save.motorcycleName}"></label>
+            <span class="badge text-bg-danger">必須</span>
+            <!-- エラーの表示に関しては、BootstrapのサーバーサイドのValidationの項目を参照 -->
+            <input
+              type="text"
+              class="form-control"
+              id="motorcycleName"
+              maxlength="50"
+              th:field="*{motorcycleName}"
+              th:errorClass="is-invalid"
+            />
+            <!-- messages_ja.propertiesにてmotorcycleForm.motorcycleNameの設定により表示名を上書きしている -->
+            <div th:errors="*{motorcycleName}" class="invalid-feedback"></div>
           </div>
           <div class="col">
-            <label for="seatHeight" class="form-label" th:text="#{update.seatHeight}"></label>
-            <input type="text" class="form-control" id="seatHeight" th:field="*{seatHeight}" />
+            <label for="seatHeight" class="form-label" th:text="#{save.seatHeight}"></label>
+            <!-- 「type="number"」にするとmaxlengthが効かないので、別の方法で桁数のバリデーションをする必要がある（今回は未対応） -->
+            <input
+              type="number"
+              class="form-control"
+              id="seatHeight"
+              th:field="*{seatHeight}"
+              th:errorClass="is-invalid"
+            />
+            <!-- messages_ja.propertiesにてmotorcycleForm.seatHeightの設定により表示名を上書きしている -->
+            <div th:errors="*{seatHeight}" class="invalid-feedback"></div>
           </div>
         </div>
 
         <div class="row">
           <div class="col">
-            <label for="cylinders" class="form-label" th:text="#{update.cylinders}"></label>
-            <div class="row">
-              <div class="col-9">
-                <input type="text" class="form-control" id="cylinders" th:field="*{cylinders}" />
-              </div>
-              <div class="col-3 d-flex align-self-center justify-content-end" th:text="#{update.cylinderTag}"></div>
-            </div>
+            <label for="cylinders" class="form-label" th:text="#{save.cylinders}"></label>
+            <input
+              type="text"
+              class="form-control"
+              id="cylinders"
+              maxlength="1"
+              th:field="*{cylinders}"
+              th:errorClass="is-invalid"
+            />
+            <!-- messages_ja.propertiesにてmotorcycleForm.cylindersの設定により表示名を上書きしている -->
+            <div th:errors="*{cylinders}" class="invalid-feedback"></div>
           </div>
           <div class="col">
-            <label for="cooling" class="form-label" th:text="#{update.cooling}"></label>
-            <input type="text" class="form-control" id="cooling" th:field="*{cooling}" />
+            <label for="cooling" class="form-label" th:text="#{save.cooling}"></label>
+            <input
+              type="text"
+              class="form-control"
+              id="cooling"
+              maxlength="10"
+              th:field="*{cooling}"
+              th:errorClass="is-invalid"
+            />
+            <!-- messages_ja.propertiesにてmotorcycleForm.coolingの設定により表示名を上書きしている -->
+            <div th:errors="*{cooling}" class="invalid-feedback"></div>
           </div>
           <div class="col">
-            <label for="price" class="form-label" th:text="#{update.price}"></label>
-            <input type="text" class="form-control" id="price" th:field="*{price}" />
+            <label for="price" class="form-label" th:text="#{save.price}"></label>
+            <!-- 「type="text"」のため文字入力が可能となってしまうので、別の方法で数字のみであることの確認をするバリデーションを作成する必要がある（今回は未対応） -->
+            <input
+              type="text"
+              class="form-control"
+              id="price"
+              th:field="*{price}"
+              maxlength="7"
+              th:errorClass="is-invalid"
+            />
+            <!-- messages_ja.propertiesにてmotorcycleForm.priceの設定により表示名を上書きしている -->
+            <div th:errors="*{price}" class="invalid-feedback"></div>
           </div>
         </div>
 
         <div class="row">
           <div class="col">
-            <label for="comment" class="form-label" th:text="#{update.comment}"></label>
-            <textarea class="form-control" id="comment" rows="3" th:field="*{comment}"></textarea>
+            <label for="comment" class="form-label" th:text="#{save.comment}"></label>
+            <textarea
+              class="form-control"
+              id="comment"
+              rows="3"
+              maxlength="200"
+              th:field="*{comment}"
+              th:errorClass="is-invalid"
+            ></textarea>
+            <!-- messages_ja.propertiesにてmotorcycleForm.commentの設定により表示名を上書きしている -->
+            <div th:errors="*{comment}" class="invalid-feedback"></div>
           </div>
         </div>
 

@@ -6,8 +6,8 @@ import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Update;
 
+import jp.co.study.sample.motocatalog.forms.SearchForm;
 import jp.co.study.sample.motocatalog.model.Motorcycle;
-import jp.co.study.sample.motocatalog.model.SearchForm;
 
 /* 
 MyBatisを用いてDBと接続する

@@ -9,11 +9,11 @@ import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import jp.co.study.sample.motocatalog.forms.SearchForm;
 import jp.co.study.sample.motocatalog.mappers.BrandMapper;
 import jp.co.study.sample.motocatalog.mappers.MotorcycleMapper;
 import jp.co.study.sample.motocatalog.model.Brand;
 import jp.co.study.sample.motocatalog.model.Motorcycle;
-import jp.co.study.sample.motocatalog.model.SearchForm;
 
 @Service
 public class MotosService {

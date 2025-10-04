@@ -1,4 +1,4 @@
-package jp.co.study.sample.motocatalog.model;
+package jp.co.study.sample.motocatalog.forms;
 
 import jakarta.validation.constraints.Size;
 import lombok.Data;
