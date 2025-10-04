@@ -156,8 +156,19 @@ public class MotosController {
      * →フォームの入力値をオブジェクトにバインド（結びつけ）する際に発生したバリデーションエラーや変換エラーの情報を保持するためのオブジェクト
      */
     @PostMapping("/motos/save")
-    public String save(@ModelAttribute MotorcycleForm motorcycleForm, BindingResult result, Model model) {
+    public String save(@Validated @ModelAttribute MotorcycleForm motorcycleForm, BindingResult result, Model model) {
+        // ブランド一覧の準備
+        this.setBrands(model);
+
         try {
+            log.info("更新内容: {}", motorcycleForm);
+
+            // @Validatedの記述がないとMotorcycleForm.javaで設定したバリデーションが効かなくなるので注意！！
+            if (result.hasErrors()) {
+                // 入力チェックエラーがある場合
+                return "moto";
+            }
+
             Motorcycle motorcycle = new Motorcycle();
             // 入力内容を詰め替える
             BeanUtils.copyProperties(motorcycleForm, motorcycle);
@@ -169,8 +180,6 @@ public class MotosController {
             // 「redirect:」の後ろにすぐパスを記述しないとエラーになるので注意！！
             return "redirect:/motos";
         } catch (OptimisticLockingFailureException e) {
-            // ブランド一覧の準備
-            this.setBrands(model);
 
             result.addError(new ObjectError("global", e.getMessage()));
 

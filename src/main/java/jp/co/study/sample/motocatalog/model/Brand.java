@@ -1,5 +1,6 @@
 package jp.co.study.sample.motocatalog.model;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,6 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Brand {
     // ブランドID
+    @NotBlank
     private String brandId;
     // ブランド名
     private String brandName;
