@@ -155,3 +155,10 @@ values
     ("03", "Yamaha"),
     ("04", "Suzuki"),
     ("05", "moto guzzi");
+
+-- ユーザーのデータ
+INSERT INTO
+    m_user (user_name, password)
+values
+    ("testUser", "$2a$10$sgSc.gASfPBQDVn5K3ljNuZOB5dr6H6WTVTlv40vrn8Sa3ssq20xW"),
+    ("aaa", "$2a$10$sgSc.gASfPBQDVn5K3ljNuZOB5dr6H6WTVTlv40vrn8Sa3ssq20xW");    
