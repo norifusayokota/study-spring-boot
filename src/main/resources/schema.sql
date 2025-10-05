@@ -26,3 +26,13 @@ CREATE TABLE
         brand_id VARCHAR(2) NOT NULL PRIMARY KEY COMMENT 'ブランドID',
         brand_name VARCHAR(20) COMMENT 'ブランド名'
     ) COMMENT 'ブランドマスタ';
+
+-- ユーザーマスタのテーブルの削除
+DROP TABLE IF EXISTS m_user;
+
+-- ユーザーマスタのテーブル作成
+CREATE TABLE
+    m_user (
+        user_name VARCHAR(20) NOT NULL PRIMARY KEY COMMENT 'ユーザー名',
+        password VARCHAR(100) NOT NULL COMMENT 'パスワード'
+    ) COMMENT 'ユーザーマスタ';
